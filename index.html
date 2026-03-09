@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Medicine Info App</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<!-- ================= LOGIN PAGE ================= -->
+
+<div id="loginPage" class="login-page">
+
+<div class="login-card">
+
+<h1 class="app-title">💊 Medicine App</h1>
+
+<!-- LOGIN -->
+
+<h2>Login</h2>
+
+<input type="text" id="username" placeholder="Enter Username">
+
+<input type="password" id="password" placeholder="Enter Password">
+
+<button onclick="login()">Login</button>
+
+<p id="loginError"></p>
+
+<hr>
+
+<!-- REGISTER -->
+
+<h3>New User Register</h3>
+
+<input type="text" id="newUser" placeholder="Create Username">
+
+<input type="password" id="newPass" placeholder="Create Password">
+
+<button onclick="register()">Register</button>
+
+</div>
+
+</div>
+
+<!-- ================= MAIN APP ================= -->
+
+<div id="app" style="display:none;">
+
+<!-- Sidebar -->
+
+<div class="sidebar">
+<h2>MedicineApp</h2>
+
+<ul>
+
+<li class="active" onclick="showSection('home', event)">Home</li>
+
+<li onclick="showSection('medicines', event)">Medicines</li>
+
+<li onclick="showSection('dosage', event)">Combinations</li>
+
+<li onclick="showSection('sideEffectsSection', event)">Side Effects</li>
+
+<li onclick="showSection('alternatives', event)">Alternatives</li>
+
+<li onclick="showSection('reference', event)">Medicine Reference</li>
+
+<li onclick="showHealthTips(event)">Health Tips</li>
+
+<li onclick="showClassification(event)">Medicine Classification</li>
+
+<li onclick="showMedicinePathway(event)">Medicine Pathway</li>
+
+<li onclick="showSection('about', event)">About</li>
+
+<li onclick="logout()">Logout</li>
+
+</ul>
+
+</div>
+
+
+<!-- Main Content -->
+
+<div class="main">
+
+<!-- Home -->
+
+<section id="home" class="section active">
+
+<h1>Welcome to MedicineApp</h1>
+
+<p>Search and explore medicines, their salts, function, mechanism of action, dosage, and common combinations.</p>
+
+</section>
+
+
+<!-- Medicines -->
+
+<section id="medicines" class="section">
+
+<h1>Medicines</h1>
+
+<input type="text" id="searchInput" placeholder="Search medicine..." onkeyup="searchMedicine()">
+
+<div id="autocompleteList" class="autocomplete-list"></div>
+
+<div id="medicineCards" class="cards-container"></div>
+
+</section>
+
+
+<!-- Combinations -->
+
+<section id="dosage" class="section">
+
+<h1>Combinations of 2 Medicines</h1>
+
+<div class="combination-checker">
+
+<label>Medicine 1:</label>
+
+<select id="med1Select">
+<option value="">Select Medicine 1</option>
+</select>
+
+<label>Medicine 2:</label>
+
+<select id="med2Select">
+<option value="">Select Medicine 2</option>
+</select>
+
+<button onclick="checkSelectedCombination()">Check Combination</button>
+
+</div>
+
+<div id="combinationResult"></div>
+
+<hr>
+
+<h2>Combination</h2>
+
+<div id="dosageList" class="cards-container"></div>
+
+</section>
+
+
+<!-- Side Effects -->
+
+<section id="sideEffectsSection" class="section">
+
+<h2>Side Effects</h2>
+
+<input type="text" id="sideSearch" placeholder="Search medicine..." oninput="searchSideEffects()">
+
+<div id="sideEffectsResult" class="cards-container"></div>
+
+</section>
+
+
+<!-- Alternatives -->
+
+<section id="alternatives" class="section">
+
+<h2>Alternative / Similar Medicines</h2>
+
+<input type="text" id="altSearch" placeholder="Search medicine..." oninput="searchAlternatives()">
+
+<div id="altResults" class="cards-container"></div>
+
+</section>
+<!-- Reference Medicine -->
+
+<section id="reference" class="section">
+
+<h1>Medicine Reference</h1>
+
+<p>These medicines are commonly used for symptoms. Always consult a doctor before using any medicine.</p>
+
+<div class="cards-container">
+
+<div class="medicine-card">
+<h3>Headache</h3>
+<p>Paracetamol</p>
+<p>Ibuprofen</p>
+<p><b>⚠ Doctor's prescription recommended.</b></p>
+</div>
+
+<div class="medicine-card">
+<h3>Fever</h3>
+<p>Paracetamol</p>
+<p>Acetaminophen</p>
+<p><b>⚠ Doctor's prescription recommended.</b></p>
+</div>
+
+<div class="medicine-card">
+<h3>Cold / Flu</h3>
+<p>Cetirizine</p>
+<p>Antihistamines</p>
+<p><b>⚠ Doctor's prescription recommended.</b></p>
+</div>
+
+<div class="medicine-card">
+<h3>Stomach Pain</h3>
+<p>Omeprazole</p>
+<p>Antacids</p>
+<p><b>⚠ Doctor's prescription recommended.</b></p>
+</div>
+
+<div class="medicine-card">
+<h3>Tooth Pain</h3>
+<p>Ibuprofen</p>
+<p>Paracetamol</p>
+<p><b>⚠ Doctor's prescription recommended.</b></p>
+</div>
+
+<div class="medicine-card">
+<h3>Cough</h3>
+<p>Dextromethorphan</p>
+<p>Benylin</p>
+<p><b>⚠ Doctor's prescription recommended.</b></p>
+</div>
+
+<div class="medicine-card">
+<h3>Sore Throat</h3>
+<p>Strepsils</p>
+<p>Paracetamol</p>
+<p><b>⚠ Doctor's prescription recommended.</b></p>
+</div>
+
+<div class="medicine-card">
+<h3>Allergy</h3>
+<p>Cetirizine</p>
+<p>Loratadine</p>
+<p><b>⚠ Doctor's prescription recommended.</b></p>
+</div>
+
+<div class="medicine-card">
+<h3>Nausea</h3>
+<p>Domperidone</p>
+<p>Ondansetron</p>
+<p><b>⚠ Doctor's prescription recommended.</b></p>
+</div>
+
+<div class="medicine-card">
+<h3>Diarrhea</h3>
+<p>Loperamide</p>
+<p>ORS</p>
+<p><b>⚠ Doctor's prescription recommended.</b></p>
+</div>
+
+<div class="medicine-card">
+<h3>Acidity</h3>
+<p>Omeprazole</p>
+<p>Ranitidine</p>
+<p><b>⚠ Doctor's prescription recommended.</b></p>
+</div>
+
+<div class="medicine-card">
+<h3>Muscle Pain</h3>
+<p>Diclofenac</p>
+<p>Ibuprofen</p>
+<p><b>⚠ Doctor's prescription recommended.</b></p>
+</div>
+
+<div class="medicine-card">
+<h3>Skin Infection</h3>
+<p>Clotrimazole</p>
+<p>Mupirocin</p>
+<p><b>⚠ Doctor's prescription recommended.</b></p>
+</div>
+
+<div class="medicine-card">
+<h3>Vomiting</h3>
+<p>Ondansetron</p>
+<p>Metoclopramide</p>
+<p><b>⚠ Doctor's prescription recommended.</b></p>
+</div>
+<div class="medicine-card">
+<h3>High Blood Pressure</h3>
+<p>Amlodipine</p>
+<p>Losartan</p>
+<p><b>⚠ Doctor's prescription recommended.</b></p>
+</div>
+
+<div class="medicine-card">
+<h3>Low Blood Pressure</h3>
+<p>Fludrocortisone</p>
+<p>Midodrine</p>
+<p><b>⚠ Doctor's prescription recommended.</b></p>
+</div>
+
+<div class="medicine-card">
+<h3>Diabetes</h3>
+<p>Metformin</p>
+<p>Insulin</p>
+<p><b>⚠ Doctor's prescription recommended.</b></p>
+</div>
+
+<div class="medicine-card">
+<h3>Asthma</h3>
+<p>Salbutamol</p>
+<p>Budesonide Inhaler</p>
+<p><b>⚠ Doctor's prescription recommended.</b></p>
+</div>
+
+<div class="medicine-card">
+<h3>Ear Pain</h3>
+<p>Ibuprofen</p>
+<p>Acetaminophen</p>
+<p><b>⚠ Doctor's prescription recommended.</b></p>
+</div>
+
+<div class="medicine-card">
+<h3>Eye Infection</h3>
+<p>Chloramphenicol Eye Drops</p>
+<p>Artificial Tears</p>
+<p><b>⚠ Doctor's prescription recommended.</b></p>
+</div>
+
+<div class="medicine-card">
+<h3>Burns</h3>
+<p>Silver Sulfadiazine Cream</p>
+<p>Burnol</p>
+<p><b>⚠ Doctor's prescription recommended.</b></p>
+</div>
+
+<div class="medicine-card">
+<h3>Constipation</h3>
+<p>Lactulose</p>
+<p>Bisacodyl</p>
+<p><b>⚠ Doctor's prescription recommended.</b></p>
+</div>
+
+<div class="medicine-card">
+<h3>Anxiety</h3>
+<p>Diazepam</p>
+<p>Alprazolam</p>
+<p><b>⚠ Doctor's prescription recommended.</b></p>
+</div>
+
+<div class="medicine-card">
+<h3>Depression</h3>
+<p>Fluoxetine</p>
+<p>Sertraline</p>
+<p><b>⚠ Doctor's prescription recommended.</b></p>
+</div>
+
+<div class="medicine-card">
+<h3>Joint Pain</h3>
+<p>Diclofenac</p>
+<p>Naproxen</p>
+<p><b>⚠ Doctor's prescription recommended.</b></p>
+</div>
+
+<div class="medicine-card">
+<h3>Back Pain</h3>
+<p>Ibuprofen</p>
+<p>Paracetamol</p>
+<p><b>⚠ Doctor's prescription recommended.</b></p>
+</div>
+
+<div class="medicine-card">
+<h3>Migraine</h3>
+<p>Sumatriptan</p>
+<p>Ibuprofen</p>
+<p><b>⚠ Doctor's prescription recommended.</b></p>
+</div>
+
+<div class="medicine-card">
+<h3>Urinary Infection</h3>
+<p>Nitrofurantoin</p>
+<p>Ciprofloxacin</p>
+<p><b>⚠ Doctor's prescription recommended.</b></p>
+</div>
+
+<div class="medicine-card">
+<h3>Malaria</h3>
+<p>Artemether</p>
+<p>Lumefantrine</p>
+<p><b>⚠ Doctor's prescription recommended.</b></p>
+</div>
+
+<div class="medicine-card">
+<h3>Dengue Fever</h3>
+<p>Paracetamol</p>
+<p>Fluids / ORS</p>
+<p><b>⚠ Doctor's prescription recommended.</b></p>
+</div>
+
+<div class="medicine-card">
+<h3>Chickenpox</h3>
+<p>Acyclovir</p>
+<p>Calamine Lotion</p>
+<p><b>⚠ Doctor's prescription recommended.</b></p>
+</div>
+
+<div class="medicine-card">
+<h3>Fungal Infection</h3>
+<p>Fluconazole</p>
+<p>Clotrimazole</p>
+<p><b>⚠ Doctor's prescription recommended.</b></p>
+</div>
+
+<div class="medicine-card">
+<h3>Sinus Infection</h3>
+<p>Amoxicillin</p>
+<p>Decongestants</p>
+<p><b>⚠ Doctor's prescription recommended.</b></p>
+</div>
+
+<div class="medicine-card">
+<h3>Insomnia</h3>
+<p>Melatonin</p>
+<p>Zolpidem</p>
+<p><b>⚠ Doctor's prescription recommended.</b></p>
+</div>
+
+</div>
+
+</section>
+
+<!-- Health Tips Section -->
+    <section id="healthTipsSection" class="section">
+      <h2>Health Tips</h2>
+      <input type="text" id="tipSearch" placeholder="Search tips..." onkeyup="filterTips()">
+      <ul id="tipsList"></ul>
+      <p><a href="#" onclick="showSection('medicines', event)">Back to Medicines</a></p>
+    </section>
+
+    <script>
+// =================== HEALTH TIPS ===================
+const healthTips = [
+  { category: "Headache", tip: "Drink plenty of water and rest in a dark room." },
+  { category: "Cold & Flu", tip: "Drink warm fluids and use steam inhalation." },
+  { category: "General", tip: "Walk 30 minutes daily to improve circulation." },
+  { category: "Digestive", tip: "Eat fiber-rich foods and avoid late-night heavy meals." },
+  { category: "Sleep", tip: "Maintain a consistent sleep schedule for better rest." },
+  { category: "Hydration", tip: "Drink at least 8 glasses of water daily." },
+  { category: "Stress", tip: "Practice deep breathing or meditation for 10 minutes daily." },
+  { category: "Immune System", tip: "Include vitamin C rich fruits in your diet." },
+  { category: "Back Pain", tip: "Stretch gently and maintain good posture." },
+  { category: "Eyes", tip: "Follow the 20-20-20 rule: every 20 minutes, look 20 feet away for 20 seconds." }
+];
+
+// Display tips in the list
+function displayTips(tipsArray = healthTips) {
+  const container = document.getElementById('tipsList');
+  container.innerHTML = '';
+
+  tipsArray.forEach(tipObj => {
+    // Create card div
+    const card = document.createElement('div');
+    card.classList.add('medicine-card'); // use same card style
+
+    // Add tip title and content
+    const h3 = document.createElement('h3');
+    h3.textContent = tipObj.category;
+    card.appendChild(h3);
+
+    const p = document.createElement('p');
+    p.textContent = tipObj.tip;
+    card.appendChild(p);
+
+    container.appendChild(card);
+  });
+}
+
+// Filter tips when searching
+function filterTips(){
+  const query = document.getElementById('tipSearch').value.toLowerCase();
+  const filtered = healthTips.filter(t =>
+    t.tip.toLowerCase().includes(query) || t.category.toLowerCase().includes(query)
+  );
+  displayTips(filtered);
+}
+
+// Show Health Tips section
+function showHealthTips(event){
+  showSection('healthTipsSection', event);
+  displayTips();
+}
+</script>
+
+<section id="classificationSection" class="section">
+  <h2>Medicine Classification</h2>
+
+  <!-- Search by category -->
+  <input type="text" id="categorySearch" placeholder="Search category..." onkeyup="filterCategories()">
+
+  <!-- Category Cards -->
+  <div id="categoryCards" class="cards-container"></div>
+</section>
+<!-- ================= MEDICINE CLASSIFICATION JS ================= -->
+<script>
+// Sample categories and medicines
+const medicineCategories = [
+  {
+    category: "Analgesics",
+    medicines: ["Paracetamol", "Ibuprofen", "Diclofenac", "Naproxen", "Aspirin", "Ketorolac"]
+  },
+  {
+    category: "Antibiotics",
+    medicines: ["Amoxicillin", "Ciprofloxacin", "Azithromycin", "Doxycycline", "Metronidazole", "Cephalexin"]
+  },
+  {
+    category: "Antihistamines",
+    medicines: ["Cetirizine", "Loratadine", "Fexofenadine", "Chlorpheniramine", "Diphenhydramine"]
+  },
+  {
+    category: "Antipyretics",
+    medicines: ["Paracetamol", "Ibuprofen", "Aspirin", "Naproxen"]
+  },
+  {
+    category: "Antacids / Digestive",
+    medicines: ["Omeprazole", "Ranitidine", "Lactulose", "Bismuth Subsalicylate", "Aluminium Hydroxide"]
+  },
+  {
+    category: "Inhalers / Respiratory",
+    medicines: ["Salbutamol", "Budesonide Inhaler", "Fluticasone", "Montelukast"]
+  },
+  {
+    category: "Sedatives / Sleep",
+    medicines: ["Melatonin", "Zolpidem", "Diazepam", "Alprazolam"]
+  },
+  {
+    category: "Diabetes",
+    medicines: ["Metformin", "Insulin", "Glipizide", "Gliclazide"]
+  },
+  {
+    category: "Cardiovascular",
+    medicines: ["Amlodipine", "Losartan", "Atorvastatin", "Clopidogrel"]
+  },
+  {
+    category: "Anti-inflammatories",
+    medicines: ["Prednisone", "Hydrocortisone", "Methylprednisolone"]
+  }
+];
+
+// Display all categories
+function displayCategories(categoriesArray = medicineCategories) {
+  const container = document.getElementById('categoryCards');
+  container.innerHTML = '';
+
+  categoriesArray.forEach(cat => {
+    const card = document.createElement('div');
+    card.classList.add('medicine-card'); // reuse existing card style
+    card.innerHTML = `
+      <h3>${cat.category}</h3>
+      <p><b>Medicines:</b> ${cat.medicines.join(', ')}</p>
+    `;
+    container.appendChild(card);
+  });
+}
+
+// Filter categories by search
+function filterCategories() {
+  const query = document.getElementById('categorySearch').value.toLowerCase();
+  const filtered = medicineCategories.filter(c =>
+    c.category.toLowerCase().includes(query) ||
+    c.medicines.some(med => med.toLowerCase().includes(query))
+  );
+  displayCategories(filtered);
+}
+
+// Show Classification Section
+function showClassification(event) {
+  // Hide all sections & highlight sidebar
+  document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
+  document.getElementById('classificationSection').classList.add('active');
+
+  document.querySelectorAll('.sidebar ul li').forEach(li => li.classList.remove('active'));
+  if(event) event.currentTarget.classList.add('active');
+
+  // Display categories
+  displayCategories();
+}
+</script>
+<!-- =================== MEDICINE PATHWAY =================== -->
+<section id="medicinePathwaySection" class="section">
+  <h2>Medicine Pathway</h2>
+
+  <p>Select a medicine to see its journey in the body:</p>
+  <select id="pathwaySelect" onchange="showPathway()">
+    <option value="">Select Medicine</option>
+  </select>
+
+  <div id="pathwayDiagram" class="pathway-container">
+    <div class="pathway-step">Please select a medicine to view its pathway.</div>
+  </div>
+</section>
+
+<script>
+  // =================== MEDICINE PATHWAYS ===================
+  const medicinePathways = {
+    "Paracetamol": [
+      "💊 Taken orally",
+      "⬇ Absorbed in stomach & intestines",
+      "⬇ Distributed via bloodstream",
+      "⬇ Reaches liver for metabolism",
+      "⬇ Acts on pain & fever centers in the brain",
+      "⬇ Excreted via kidneys"
+    ],
+    "Ibuprofen": [
+      "💊 Taken orally",
+      "⬇ Absorbed in stomach & intestines",
+      "⬇ Distributed via blood",
+      "⬇ Inhibits prostaglandins (reduces pain/inflammation)",
+      "⬇ Metabolized in liver",
+      "⬇ Excreted via kidneys"
+    ],
+    "Amoxicillin": [
+      "💊 Taken orally",
+      "⬇ Absorbed in gut",
+      "⬇ Travels via bloodstream",
+      "⬇ Targets bacterial cells",
+      "⬇ Metabolized partially in liver",
+      "⬇ Excreted via urine"
+    ],
+    "Salbutamol": [
+      "💨 Inhaled via mouth",
+      "⬇ Reaches lungs directly",
+      "⬇ Acts on bronchioles to relax muscles",
+      "⬇ Distributed minimally to blood",
+      "⬇ Metabolized in liver",
+      "⬇ Excreted in urine"
+    ],
+    "Omeprazole": [
+      "💊 Taken orally",
+      "⬇ Absorbed in intestines",
+      "⬇ Travels to bloodstream",
+      "⬇ Inhibits stomach acid production",
+      "⬇ Metabolized in liver",
+      "⬇ Excreted via urine"
+    ],
+    "Cetirizine": [
+      "💊 Taken orally",
+      "⬇ Absorbed in gut",
+      "⬇ Distributed via blood",
+      "⬇ Blocks histamine receptors",
+      "⬇ Relieves allergy symptoms",
+      "⬇ Metabolized and excreted in urine"
+    ],
+    "Ranitidine": [
+      "💊 Taken orally",
+      "⬇ Absorbed in intestines",
+      "⬇ Travels via bloodstream",
+      "⬇ Reduces stomach acid production",
+      "⬇ Metabolized in liver",
+      "⬇ Excreted via urine"
+    ],
+    "Metformin": [
+      "💊 Taken orally",
+      "⬇ Absorbed in small intestine",
+      "⬇ Reduces glucose production in liver",
+      "⬇ Improves insulin sensitivity",
+      "⬇ Distributed in tissues",
+      "⬇ Excreted unchanged via kidneys"
+    ],
+    "Fluoxetine": [
+      "💊 Taken orally",
+      "⬇ Absorbed in gut",
+      "⬇ Distributed via bloodstream",
+      "⬇ Acts on serotonin in brain",
+      "⬇ Improves mood & reduces depression",
+      "⬇ Metabolized in liver, excreted via urine"
+    ],
+    "Diazepam": [
+      "💊 Taken orally",
+      "⬇ Absorbed in stomach",
+      "⬇ Distributed in blood & brain",
+      "⬇ Enhances GABA neurotransmitter effect",
+      "⬇ Reduces anxiety & muscle spasms",
+      "⬇ Metabolized in liver, excreted via urine"
+    ],
+    // Add more medicines as needed (all 40+ medicines can be included here)
+  };
+
+  // =================== POPULATE DROPDOWN ===================
+  const pathwaySelect = document.getElementById("pathwaySelect");
+  Object.keys(medicinePathways).forEach(med => {
+    const option = document.createElement("option");
+    option.value = med;
+    option.textContent = med;
+    pathwaySelect.appendChild(option);
+  });
+
+  // =================== SHOW SELECTED PATHWAY ===================
+  function showPathway() {
+    const medicine = pathwaySelect.value;
+    const container = document.getElementById("pathwayDiagram");
+    container.innerHTML = ""; // clear previous
+
+    if(!medicine || !medicinePathways[medicine]) {
+      container.innerHTML = "<div class='pathway-step'>Please select a medicine to view its pathway.</div>";
+      return;
+    }
+
+    medicinePathways[medicine].forEach(step => {
+      const div = document.createElement("div");
+      div.classList.add("pathway-step");
+      div.textContent = step;
+      container.appendChild(div);
+    });
+  }
+
+  // =================== SHOW SECTION & HIGHLIGHT SIDEBAR ===================
+  function showMedicinePathway(event) {
+    document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
+    document.getElementById('medicinePathwaySection').classList.add('active');
+
+    document.querySelectorAll('.sidebar ul li').forEach(li => li.classList.remove('active'));
+    if(event) event.currentTarget.classList.add('active');
+  }
+</script>
+<!-- About -->
+
+<section id="about" class="section">
+
+<h1>About</h1>
+
+<p>This app provides detailed information about medicines, their salts, mechanism of action, functions in the body, dosage, side effects, and alternatives.</p>
+
+</section>
+
+</div>
+
+</div>
+
+
+
+<script src="script.js"></script>
+
+
+<script>
+
+/* REGISTER */
+
+function register(){
+
+let user=document.getElementById("newUser").value
+
+let pass=document.getElementById("newPass").value
+
+localStorage.setItem("username",user)
+
+localStorage.setItem("password",pass)
+
+alert("Registration Successful")
+
+}
+
+
+
+/* LOGIN */
+
+function login(){
+
+let user=document.getElementById("username").value
+
+let pass=document.getElementById("password").value
+
+let savedUser=localStorage.getItem("username")
+
+let savedPass=localStorage.getItem("password")
+
+if(user===savedUser && pass===savedPass){
+
+document.getElementById("loginPage").style.display="none"
+
+document.getElementById("app").style.display="flex"
+
+}
+
+else{
+
+document.getElementById("loginError").innerText="Wrong Username or Password"
+
+}
+
+}
+
+
+
+/* LOGOUT */
+
+function logout(){
+
+document.getElementById("app").style.display="none"
+
+document.getElementById("loginPage").style.display="block"
+
+}
+
+</script>
+
+</body>
+</html>
